@@ -21,52 +21,54 @@
         </thead>
         <tbody>
         <?php
-        for ($i=0; $i < 5; $i++){
-            $def = rand(0,1);
-            switch ($def){
-                case 0:
-                    echo '<tr class="table-success">
-            <th scope="row">Developer</th>
-            <td><i>RINES</i></td>
-            <td>Our god and main developer</td>
+        require_once "utilsession.php";
+        $temp = new utilsession();
+        $url = $temp->api_req . "project.getStaffOnline?token=" . $temp->token;
+        $json = file_get_contents($url);
+        $json = json_decode($json, true);
+        $counter = 0;
+        foreach ($json as $key => $val1) {
+            foreach ($val1 as $num => $person) {
+                foreach ($person as $attr => $name) {
+                    $group = $key;
+                    switch ($attr) {
+                        case 'server':
+                            $server = $name;
+                            break;
+                        case 'nickname':
+                            $nick = $name;
+                            if ($counter < 5) {
+                                echo '<tr style="cursor: none">
+        <th scope="row">' . $group . '</th>
+        <td><i>'. $nick .'</i></td>
+        <td>'. $server . '</td>
         </tr>';
-                    break;
-                case 1:
-                    echo '<tr class="table-danger">
-            <th scope="row">Admin</th>
-            <td><i>RINES</i></td>
-            <td>Our god and main developer</td>
-        </tr>';
-                    break;
-            }
-        }
-        echo '<tr data-toggle="collapse" class="table-active clickable"
-data-target=".accordion">
-        <th scope="row">Kostik :3</th>
-        <td><i>RINES</i></td>
-        <td>Nazhmi na etu stroku to see moar</td>
+                            }
+                            if ($counter == 5) {
+                                echo '<tr data-toggle="collapse" class="clickable"
+data-target=".accordion" style="cursor:pointer;">
+        <th scope="row">' . $group . '</th>
+        <td><i>'. $nick .'</i></td>
+        <td>'. $server . '</td>
         </tr>';
 
-        for ($i=0; $i < 20; $i++){
-            $def = rand(0,1);
-            switch ($def){
-                case 0:
-                    echo '<tr class="table-success accordion collapse">
-            <th scope="row">Developer</th>
-            <td><i>RINES</i></td>
-            <td>Our god and main developer</td>
+                            }
+                            if ($counter > 5) {
+                                echo '<tr style="cursor:none;" class="accordion collapse">
+        <th scope="row">' . $group . '</th>
+        <td><i>'. $nick .'</i></td>
+        <td>'. $server . '</td>
         </tr>';
-                    break;
-                case 1:
-                    echo '<tr class="table-danger accordion collapse">
-            <th scope="row">Admin</th>
-            <td><i>RINES</i></td>
-            <td>Our god and main developer</td>
-        </tr>';
-                    break;
+                            }
+
+                            ++$counter;
+                            break;
+                    }
+                }
             }
         }
 
+        unset($temp);
         ?>
 
         </tbody>
