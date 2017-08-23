@@ -50,8 +50,10 @@ require "header.php";
                 foreach ($json as $var => $key) {
                     if ($var == 'total_online') {
                         $total_online = $key;
-                        echo '<div class="row"><span id="mas-label" class="glob_online beautiful-light">Online : ' .
-                            $total_online . '</div>';
+                        echo '<div class="row"><iframe id="mas-label" 
+frameborder="0" scrolling="no" onload="suchiyFrame(this)" src="clustersFrame.php"class="glob_online beautiful-light" style="position:relative; display:block; top:-37px;">Online : ' .
+                            $total_online . '</iframe>
+</div>';
                     }
                     if ($var == 'clusters') {
                         foreach ($key as $cluster) {
@@ -66,7 +68,7 @@ require "header.php";
                             echo '<div class="lpdied">';
                             echo '<span class="left-panel-span lpl">Online:</span>';
 
-                            echo '<span class="left-panel-span lpr">' . $cluster["online"] . '</span>';
+                            echo '<span class="left-panel-span lpr" id="clus' . $cluster['name'] . '">' . $cluster["online"] . '</span>';
                             echo '</div>';
                             echo '</div></a></li>';
                         }

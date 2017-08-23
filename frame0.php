@@ -22,8 +22,16 @@ require 'header.php';
 <link rel="stylesheet" type="text/css" href="css/component.css">
 <style>
     .grid>li {
-        width: 16% !important;
+        width: 18% !important;
         min-width: 143px;
+    }
+
+    .bottompan {
+        vertical-align: bottom;
+        position: absolute;
+        display: inline;
+        bottom: 12px;
+        left: 0;
     }
 </style>
 <script src="js/modernizr.custom.js"></script>
@@ -75,6 +83,8 @@ if (isset($curCluster)) {
             $json = file_get_contents($url);
             $json = json_decode($json, true);
             $s = $json['machine'];
+            $s = str_replace(".dms.yt", "", $s);
+            $s = str_replace(".network", "", $s);
             echo '<li id="'. $nm .'"><a><div class="masonry_graph" style="min-height:' . (150 + ($onl / 3 )) . 'px;' .
                 'background-color:rgb(' . rand(170, 190) . "," . rand(170, 210) . "," . rand(180, 210) . "," . '1);"' . '>';
 
@@ -84,23 +94,24 @@ if (isset($curCluster)) {
             echo '</div>';
 
             echo '<div class="lpdied">';
-            echo '<span class="left-panel-span lpl">Online:</span>';
-
-            echo '<span class="left-panel-span lpr">' . $onl . '</span>';
+            echo '<span class="left-panel-span lpl" style="
+    width: 100%;
+    font-size: 12px;">' . $json['address'] . ':' . $json['port'] . '</span>';
             echo '</div>';
 
             echo '<div class="lpdied">';
-            echo '<span class="left-panel-span lpl" style="    word-wrap: break-word;
+            echo '<span class="left-panel-span lpl" style="
     width: 100%;
-    font-size: 9px;">'. $json['address'] . ':' . $json['port'] . '</span>';
+    font-size: 16px;">' . $s . '</span>';
+            echo '</div>';
+
+            echo '<div class="lpdied bottompan">';
+            echo '<span class="left-panel-span lpl" style="
+    width: 100%;
+    font-size: 16px;">Online: ' . $onl . '</span>';
             echo '</div>';
 
 
-            echo '<div class="lpdied">';
-            echo '<span class="left-panel-span lpl" style="    word-wrap: break-word;
-    width: 100%;
-    font-size: 15px;">'. str_replace(".dms.yt", "", $s) .'</span>';
-            echo '</div>';
             echo '</div></a></li>';
 
         }

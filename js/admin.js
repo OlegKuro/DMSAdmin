@@ -20,7 +20,11 @@ $(document).ready(function () {
     frame.src = "frame.php?cluster=world";
     setInterval(function () {
         document.getElementById("chartFrame").src += '';
-    }, 10000);
+    }, 240000);
+    setInterval(function () {
+        var t = document.getElementById("mas-label");
+        t.src += '';
+    }, 5000);
 });
 
 function resizeIframe(obj) {
@@ -28,6 +32,14 @@ function resizeIframe(obj) {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
     obj.style.width = 0;
     obj.style.width = obj.contentWindow.document.body.scrollWidth + 'px';
+}
+
+
+function suchiyFrame(obj) {
+    obj.style.height = 0;
+    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    obj.style.width = 0;
+    obj.style.width = 156 + 'px';
 }
 
 function resizeServ(obj) {

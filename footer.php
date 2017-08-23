@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="span6 formh2" style="float: none; margin: 0 auto;">Администрация проекта:</div>
+        <div class="span6 formh2" style="float: none; margin: 0 auto;">Project administration:</div>
     </div>
     <hr>
     <table class="table table-sm table-hover" style="margin-bottom: 30px;">
