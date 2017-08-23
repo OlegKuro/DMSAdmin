@@ -50,13 +50,13 @@ require "header.php";
                 foreach ($json as $var => $key) {
                     if ($var == 'total_online') {
                         $total_online = $key;
-                        echo '<div class="row"><span id="mas-label" class="glob_online">Online : ' .
+                        echo '<div class="row"><span id="mas-label" class="glob_online beautiful-light">Online : ' .
                             $total_online . '</div>';
                     }
                     if ($var == 'clusters') {
                         foreach ($key as $cluster) {
-                            echo '<li><a href="#"><div class="masonry_graph" style="min-height:' . rand(100, 150) . 'px;' .
-                                'background-color:rgb(' . rand(190, 210) . "," . rand(190, 210) . "," . rand(190, 210) . ');"' . '>';
+                            echo '<li id="'. $cluster['name'] .'"><a><div class="masonry_graph" style="min-height:' . (100 + ($cluster['online'] / 3 )) . 'px;' .
+                                'background-color:rgb(' . rand(190, 210) . "," . rand(190, 210) . "," . rand(190, 210) . "," . '1);"' . '>';
 
                             //div inner
                             echo '<div class="row">';
@@ -80,8 +80,26 @@ require "header.php";
 
             </ul>
         </div>
+
+
+        <div class="col-md-7 col-lg-7 col-sm-5 col-xs-12">
+            <div class="container-fluid">
+            <h1 id="username">UserName</h1>
+            <h2 class="beautiful-light">His site status</h2>
+            <div class="row">
+                <iframe frameborder="0" src="php/frame0.php" scrolling="no" id= "servFrame" onload="resizeIframe(this)" style="{display:none;}"></iframe>
+            </div>
+                <div class="row">
+            <iframe id="chartFrame" frameborder="0" src="frame.php/?cluster=world" scrolling="no" onload="resizeIframe(this)""> </iframe>
+                </div>
+                <div class="row">
+            <iframe id="chartFrame2" frameborder="0" src="multiframe.php/?all=true" scrolling="no" onload="resizeIframe(this)""> </iframe>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<script type="text/javascript" src="js/admin.js"></script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/imagesloaded.js"></script>
 <script src="js/classie.js"></script>
