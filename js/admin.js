@@ -8,11 +8,10 @@ t.click(function () {
     $("#chartFrame2").hide();
 
     frame.src = "frame.php?cluster=" + this.id;
-    $.getJSON('https://api.dms.yt/methods/project.getClusterOnline?token=popochka-v-shokolade&cluster=' +
-        this.id
-        , function(data) {
-        alert(data);
-    })
+
+    $('#servFrame').show();
+    var serverframe = document.getElementById("servFrame");
+    serverframe.src = "frame0.php?server=" + this.id;
 });
 
 $(document).ready(function () {
@@ -31,7 +30,10 @@ function resizeIframe(obj) {
     obj.style.width = obj.contentWindow.document.body.scrollWidth + 'px';
 }
 
-
+function resizeServ(obj) {
+    obj.style.height = 0;
+    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+}
 function fadeOut(el) {
     el.style.opacity = 1;
 

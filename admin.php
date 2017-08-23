@@ -55,7 +55,7 @@ require "header.php";
                     }
                     if ($var == 'clusters') {
                         foreach ($key as $cluster) {
-                            echo '<li id="'. $cluster['name'] .'"><a><div class="masonry_graph" style="min-height:' . (100 + ($cluster['online'] / 3 )) . 'px;' .
+                            echo '<li id="' . $cluster['name'] . '"><a><div class="masonry_graph" style="min-height:' . (100 + ($cluster['online'] / 3)) . 'px;' .
                                 'background-color:rgb(' . rand(190, 210) . "," . rand(190, 210) . "," . rand(190, 210) . "," . '1);"' . '>';
 
                             //div inner
@@ -84,16 +84,24 @@ require "header.php";
 
         <div class="col-md-7 col-lg-7 col-sm-5 col-xs-12">
             <div class="container-fluid">
-            <h1 id="username">UserName</h1>
-            <h2 class="beautiful-light">His site status</h2>
-            <div class="row">
-                <iframe frameborder="0" src="php/frame0.php" scrolling="no" id= "servFrame" onload="resizeIframe(this)" style="{display:none;}"></iframe>
-            </div>
+                <h1 id="username">UserName</h1>
+                <h2 class="beautiful-light">His site status</h2>
+
                 <div class="row">
-            <iframe id="chartFrame" frameborder="0" src="frame.php/?cluster=world" scrolling="no" onload="resizeIframe(this)""> </iframe>
+                    <iframe id="chartFrame" frameborder="0" src="frame.php/?cluster=world" scrolling="no"
+                            onload="resizeIframe(this)"
+                    "> </iframe>
                 </div>
                 <div class="row">
-            <iframe id="chartFrame2" frameborder="0" src="multiframe.php/?all=true" scrolling="no" onload="resizeIframe(this)""> </iframe>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <iframe frameborder="0" src="frame0.php" scrolling="no" id="servFrame" onload="resizeServ(this)"
+                                style="{display:none;}"></iframe>
+                    </div>
+                </div>
+                <div class="row">
+                    <iframe id="chartFrame2" frameborder="0" src="multiframe.php/?all=true" scrolling="no"
+                            onload="resizeIframe(this)"
+                    "> </iframe>
                 </div>
             </div>
         </div>

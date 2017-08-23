@@ -25,7 +25,7 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
 	color: #000;
 	letter-spacing: 1px;
 	display:block;
-	text-align:center;" align="center" id="servName">' . 'All Clusters' . '</span>';
+	text-align:center;" align="center" id="servName">' . 'TOP-5 Clusters' . '</span>';
     echo "<br>";
     ?>
 </div>
