@@ -86,7 +86,7 @@ if (isset($curCluster)) {
             $s = str_replace(".dms.yt", "", $s);
             $s = str_replace(".network", "", $s);
             echo '<li id="'. $nm .'"><a><div class="masonry_graph" style="min-height:' . (150 + ($onl / 3 )) . 'px;' .
-                'background-color:rgb(' . rand(170, 190) . "," . rand(170, 210) . "," . rand(180, 210) . "," . '1);"' . '>';
+                'background-color:rgb(' . rand(170, 190) . "," . rand(170, 210) . "," . rand(180, 210) . ');"' . '>';
 
             //div inner
             echo '<div class="row">';
@@ -96,13 +96,13 @@ if (isset($curCluster)) {
             echo '<div class="lpdied">';
             echo '<span class="left-panel-span lpl" style="
     width: 100%;
-    font-size: 12px;">' . $json['address'] . ':' . $json['port'] . '</span>';
+    font-size: 11px;">' . $json['address'] . ':' . $json['port'] . '</span>';
             echo '</div>';
 
             echo '<div class="lpdied">';
             echo '<span class="left-panel-span lpl" style="
     width: 100%;
-    font-size: 16px;">' . $s . '</span>';
+    font-size: 14px;">' . $s . '</span>';
             echo '</div>';
 
             echo '<div class="lpdied bottompan">';

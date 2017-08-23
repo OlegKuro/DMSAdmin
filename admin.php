@@ -18,15 +18,17 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
  * Time: 23:39
  */
 require "header.php";
+require "sideNav.php";
 ?>
 <link rel="stylesheet" type="text/css" href="css/default.css"/>
 <link rel="stylesheet" type="text/css" href="css/component.css"/>
 <script src="js/modernizr.custom.js"></script>
+<div id="main">
 <div class="container-fluid">
 
 
     <div class="row">
-        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12" style="min-width:392px !important;">
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                     <h2 style="    margin: 15px auto;
@@ -58,7 +60,7 @@ frameborder="0" scrolling="no" onload="suchiyFrame(this)" src="clustersFrame.php
                     if ($var == 'clusters') {
                         foreach ($key as $cluster) {
                             echo '<li id="' . $cluster['name'] . '"><a><div class="masonry_graph" style="min-height:' . (100 + ($cluster['online'] / 3)) . 'px;' .
-                                'background-color:rgb(' . rand(190, 210) . "," . rand(190, 210) . "," . rand(190, 210) . "," . '1);"' . '>';
+                                'background-color:rgb(' . rand(190, 210) . "," . rand(190, 210) . "," . rand(190, 210) . ');"' . '>';
 
                             //div inner
                             echo '<div class="row">';
@@ -121,6 +123,7 @@ frameborder="0" scrolling="no" onload="suchiyFrame(this)" src="clustersFrame.php
         viewportFactor: 0.2
     });
 </script>
+</div>
 <?php
 require "footer.php";
 ?>

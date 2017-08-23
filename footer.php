@@ -38,7 +38,7 @@
                         case 'nickname':
                             $nick = $name;
                             if ($counter < 5) {
-                                echo '<tr style="cursor: none">
+                                echo '<tr style="cursor:default">
         <th scope="row">' . $group . '</th>
         <td><i>'. $nick .'</i></td>
         <td>'. $server . '</td>
@@ -54,7 +54,7 @@ data-target=".accordion" style="cursor:pointer;">
 
                             }
                             if ($counter > 5) {
-                                echo '<tr style="cursor:none;" class="accordion collapse">
+                                echo '<tr style="cursor:default;" class="accordion collapse">
         <th scope="row">' . $group . '</th>
         <td><i>'. $nick .'</i></td>
         <td>'. $server . '</td>

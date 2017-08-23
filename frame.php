@@ -149,7 +149,7 @@ if (isset($cluster)) {
                     {
                         data: <?php echo json_encode($dots)?>,
                         label: "Online",
-                        borderColor: "#3e95cd",
+                        borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
                         fill: false
                     }
                 ]

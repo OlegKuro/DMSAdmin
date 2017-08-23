@@ -18,9 +18,12 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
  * Time: 23:39
  */
 require "header.php";
+require "sideNav.php"
 ?>
+<div id="main">
 
 
+</div>
 <?php
 require "footer.php";
 ?>
