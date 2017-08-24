@@ -74,7 +74,7 @@ data-target=".accordion" style="cursor:pointer;">
         </tbody>
     </table>
 </div>
-
+</div>
 
 </body>
 <script

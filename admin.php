@@ -123,7 +123,6 @@ frameborder="0" scrolling="no" onload="suchiyFrame(this)" src="clustersFrame.php
         viewportFactor: 0.2
     });
 </script>
-</div>
 <?php
 require "footer.php";
 ?>
