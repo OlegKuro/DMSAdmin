@@ -45,6 +45,8 @@ function suchiyFrame(obj) {
 function resizeServ(obj) {
     obj.style.height = 0;
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    obj.style.width = 0;
+    obj.style.width = '105%';
 }
 function fadeOut(el) {
     el.style.opacity = 1;

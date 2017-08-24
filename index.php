@@ -10,13 +10,13 @@ require "header.php";
             <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
                 <form action="auth.php" method="post" class="authForm" id="formToSend">
                     <div class="form-group">
-                        <h2 id="formh1">Authorisation</h2>
+                        <h2 id="formh1">Авторизация</h2>
                         <label for="log"></label>
                         <input type="text" id="log" class="form-control" name="login" placeholder="login"/>
                         <label for="pass"></label>
                         <input type="password" name="pass" placeholder="password" id="pass" class="form-control">
                         <br>
-                        <button type="submit" class="btn btn-primary">Log in</button>
+                        <button type="submit" class="btn btn-primary">Войти</button>
                         <small id="smallauth"><?php
                             switch ($_GET['resp']) {
                                 case -2:

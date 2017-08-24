@@ -22,8 +22,9 @@ require 'header.php';
 <link rel="stylesheet" type="text/css" href="css/component.css">
 <style>
     .grid>li {
-        width: 18% !important;
+        width: 17% !important;
         min-width: 143px;
+        padding: 3px;
     }
 
     .bottompan {

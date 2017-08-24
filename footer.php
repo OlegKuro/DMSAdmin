@@ -8,15 +8,15 @@
 
 <div class="container">
     <div class="row">
-        <div class="span6 formh2" style="float: none; margin: 0 auto;">Project administration:</div>
+        <div class="span6 formh2" style="float: none; margin: 0 auto;">Администрация онлайн:</div>
     </div>
     <hr>
     <table class="table table-sm table-hover" style="margin-bottom: 30px;">
         <thead>
         <tr>
-            <th>Type</th>
-            <th>NickName</th>
-            <th>Server</th>
+            <th>Тип</th>
+            <th>Никнейм</th>
+            <th>Текущий сервер</th>
         </tr>
         </thead>
         <tbody>
