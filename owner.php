@@ -30,6 +30,11 @@ require "sideNav.php"
         padding-top: 20px;
     }
 
+    .nupizdateper {
+        color: #ff383d;
+        font-weight: bold !important;
+        font-size: 17px !important;
+    }
     .gamesInfo > div > div > ul {
         margin-top: 10px;
         margin-bottom: 1rem;
@@ -40,9 +45,18 @@ require "sideNav.php"
         font-weight: 200;
         color: black;
         padding-left: 0px;
+        text-align: center;
     }
 
-    #friendsList tr {
+    #gamesInfoLabel {
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: 200;
+        color: black;
+        letter-spacing: 5px;
+    }
+
+    .frrow {
         cursor: pointer;
     }
 
@@ -64,7 +78,7 @@ font-style: italic;"><?php
                     else echo $_SESSION['name'];
                     ?></span></h2>
             <br>
-            <h3 style="text-align: center; width: 100%"><span class="usergroup" style="    letter-spacing: 1px;
+            <h3 style="text-align: center; width: 100%"><span class="usergroup" id="curUserGr" style="    letter-spacing: 1px;
     font-size: 24px;
     font-weight: lighter;
     font-style: italic;
@@ -72,10 +86,11 @@ font-style: italic;"><?php
     width: 100%;
     text-align: center;
     top: -9px;
-">Kostik :3</span></h3>
+"> <?php echo $_SESSION['group']; ?></span></h3>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-default" onclick="updForc(this)" style="margin: 0 auto;">Обновить
+            <button type="button" class="btn btn-default" onclick="updForc(this)"
+                    style="margin: 0 auto; cursor:pointer;">Обновить
                 информацию о пользователе
             </button>
         </div>
@@ -111,12 +126,124 @@ font-style: italic;"><?php
                 <div class="row">
                     <div class="form-group">
                         <label for="usr">Поиск игрока:</label>
-                        <input type="text" class="form-control" id="usr" placeholder="<?php echo $_GET['player'] ?>">
+                        <input type="text" class="form-control" id="usr" placeholder="<?php
+                        if (isset($_GET) || $_GET != '') {
+                            echo $_GET['player'];
+                        } else {
+                            echo $_SESSION['name'];
+                        }
+                        ?>">
                     </div>
                 </div>
             </div>
 
             <div class="col-md-8 col-lg-8 col-sm-6 col-xs-12 gamesInfo">
+                <?php
+                require_once "utilsession.php";
+                $temp = new utilsession();
+                if (isset($_GET) || $_GET != '') {
+                    $url = $temp->api_req . "player.getGeneralInfo?token=" . $temp->token . '&player=' . $_GET['player'];
+                } else {
+                    $url = $temp->api_req . "player.getGeneralInfo?token=" . $temp->token . '&player=' . $_SESSION['name'];
+                }
+                $json = file_get_contents($url);
+                $json = json_decode($json, true);
+                $counter = 0;
+                echo '<script>';
+                echo 'function newTitle(){document.title = "' . ((isset($_GET["player"]) && $_GET["player"] != "") ? $_GET["player"] : $_SESSION["name"]) . '"}';
+                echo '</script>';
+                function checkIfBool($tested)
+                {
+                    if (is_bool($tested)) {
+                        if ($tested == true) {
+                            return 'да';
+                        };
+                        if ($tested == false) {
+                            return 'нет';
+                        }
+                    } else
+                        return $tested;
+                }
+
+                foreach ($json as $typegame => $game) {
+                    $counter++;
+                    if ($counter % 2 == 1)
+                        echo '<div class="row">';
+                    echo '<div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 col-md-offset-1 col-lg-offset-1">';
+
+                    echo '<span class="typegame">';
+                    echo corr($typegame);
+                    echo '</span>';
+
+                    echo '<ul>';
+                    foreach ($game as $key => $value) {
+                        if ($key == 'main_group_localized') {
+                            echo '<script>';
+                            echo 'function kostil(){
+                            document.getElementById("curUserGr").innerHTML = "' . $value .
+                                '";
+                            }';
+                            echo '</script>';
+                            continue;
+                        };
+                        if ($key == 'main_group') {
+                            echo '<li>';
+                            echo 'ГЛАВНАЯ ГРУППА : ';
+                            echo corr($game['main_group_localized']);
+                            echo '</li>';
+                            continue;
+                        }
+                        if ($key == 'all_groups') {
+                            $sooqa = $value;
+                            echo transl($key) . ' : ';
+                            $ctr = 0;
+                            foreach ($sooqa as $fuckMyMozg) {
+                                $ctr++;
+                                if ($ctr == count($sooqa)) {
+                                    echo $fuckMyMozg;
+                                } else {
+                                    echo $fuckMyMozg . ', ';
+                                }
+                            };
+                            continue;
+                        };
+                        if ($key == 'last_exit_time' || $key == 'mute_end' || $key == 'ban_end') {
+                            $value = intdiv($value, 1000) + 10800;
+                            $value = gmdate("Y-m-d H:i:s", $value);
+                            $value;
+                        };
+                        switch (transl(corr($key))) {
+                            case 'выход из мута':
+                            case 'причина мута':
+                            case 'мут дал':
+                            case 'выход из бана':
+                            case 'причина бана':
+                            case 'бан дал':
+                                echo '<li class="nupizdateper">';
+                                break;
+
+                            default:
+                                echo '<li>';
+                                break;
+                        }
+                        echo transl(corr($key)) . ' : ' . checkIfBool($value);
+                        echo '</li>';
+                    }
+                    echo '</ul>';
+                    echo '</div>';
+                    if ($counter % 2 == 0 || $counter == 5)
+                        echo '</div>';
+                }
+                ?>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 gamesInfo" style="text-align: center !important;">
+                <span id="gamesInfoLabel">
+                    Статистика игр
+                </span>
                 <?php
                 function corr($input)
                 {
@@ -126,6 +253,69 @@ font-style: italic;"><?php
                 function transl($input)
                 {
                     switch ($input) {
+                        case 'experience':
+                            return 'опыт';
+                            break;
+                        case 'rank in guild':
+                            return 'ранг в гильдии';
+                            break;
+                        case 'guild name':
+                            return 'название гильдии';
+                            break;
+                        case 'guild gold':
+                            return 'золото гильдии';
+                            break;
+                        case 'guild id':
+                            return 'ID гильдии';
+                            break;
+                        case 'guild level':
+                            return 'уровень гильдии';
+                            break;
+                        case 'guild experience':
+                            return 'опыт гильдии';
+                            break;
+                        case 'in guild':
+                            return 'участников гильдии';
+                            break;
+                        case 'main group':
+                            return 'главная группа';
+                            break;
+                        case 'server':
+                            return 'сервер';
+                            break;
+                        case 'online':
+                            return 'онлайн';
+                            break;
+                        case 'total bans':
+                            return 'банов получено';
+                            break;
+                        case 'total mutes':
+                            return 'мутов получено';
+                            break;
+                        case 'banned':
+                            return 'в бане';
+                            break;
+                        case 'mute reason':
+                            return 'причина мута';
+                            break;
+                        case 'mute end':
+                            return 'выход из мута';
+                            break;
+                        case 'mute enforcer':
+                            return 'мут дал';
+                            break;
+                        case 'ban enforcer':
+                            return 'бан дал';
+                            break;
+                        case 'ban end':
+                            return 'выход из бана';
+                            break;
+                        case 'ban reason':
+                            return 'причина бана';
+                            break;
+                        case 'muted':
+                            return 'в муте';
+                            break;
                         case 'kills':
                             return 'убийств';
                             break;
@@ -137,6 +327,9 @@ font-style: italic;"><?php
                             break;
                         case 'silver':
                             return 'серебро';
+                            break;
+                        case 'last exit time':
+                            return 'последний раз в сети';
                             break;
                         case 'wood cutten':
                             return 'деревьев срублено';
@@ -157,25 +350,28 @@ font-style: italic;"><?php
                             return 'двойных убийств';
                             break;
                         case 'solo kills':
-                            return 'одиночных убийств';
+                            return 'solo убийств';
                             break;
                         case 'quadro kills':
-                            return 'убийств четверых';
+                            return 'quadro убийств';
                             break;
                         case 'octo kills':
-                            return 'убийств восьмерых';
+                            return 'octo убийств';
                             break;
                         case 'octo wins':
-                            return 'стриков из восьми побед';
+                            return 'octo побед';
                             break;
                         case 'solo wins':
-                            return 'одиночных побед';
+                            return 'solo побед';
                             break;
                         case 'quadro wins':
-                            return 'стриков из четырех побед';
+                            return 'quadro побед';
                             break;
                         case 'duo wins':
-                            return 'стриков из двух побед';
+                            return 'duo побед';
+                            break;
+                        case 'all_groups':
+                            return 'все группы';
                             break;
                         case 'level':
                             return 'уровень';
@@ -234,43 +430,8 @@ font-style: italic;"><?php
                         echo '</div>';
                 }
                 ?>
-                <div class="row">
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 col-md-offset-1 col-lg-offset-1 col-sm-offset-1">
-                    </div>
-                </div>
             </div>
         </div>
-
     </div>
 
 
@@ -282,6 +443,8 @@ font-style: italic;"><?php
             });
         }
         $(document).ready(function () {
+            newTitle();
+            kostil();
             var player = document.getElementById("username").innerHTML;
             $.get('./server.php?func=getFriends&player=' + player, function (data) {
                 var table = $("#friendsTable");
@@ -332,6 +495,7 @@ font-style: italic;"><?php
         }
         function parseTime(timestamp) {
 
+            //timestamp+=10800000;
             var date = new Date(timestamp);
 
             var hours = date.getHours();

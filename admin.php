@@ -88,8 +88,8 @@ frameborder="0" scrolling="no" onload="suchiyFrame(this)" src="clustersFrame.php
 
         <div class="col-md-7 col-lg-7 col-sm-5 col-xs-12">
             <div class="container-fluid">
-                <h1 id="username">UserName</h1>
-                <h2 class="beautiful-light">His site status</h2>
+                <h1 id="username"><?php echo $_SESSION['login']; ?></h1>
+                <h2 class="beautiful-light"><?php echo $_SESSION['group']; ?></h2>
 
                 <div class="row">
                     <iframe id="chartFrame" frameborder="0" src="frame.php/?cluster=world" scrolling="no"

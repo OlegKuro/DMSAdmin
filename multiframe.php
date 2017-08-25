@@ -38,7 +38,7 @@ $temp = new utilsession();
 $cluster = $_GET['all'];
 function parseTime($time)
 {
-    $time = intdiv($time, 1000);
+    $time = intdiv($time, 1000) + 10800;
     $time = gmdate("Y-m-d H:i:s", $time);
     return $time;
 }
@@ -112,8 +112,10 @@ if (isset($cluster)) {
                 $json = file_get_contents($url);
                 $json = json_decode($json, true);
                 $json = $json['online_info'];
+                $counter = 0;
                 foreach ($json as $dot) {
-                    $pushed = 0;
+                    $time = 0;
+                    $online = 0;
                     foreach ($dot as $key => $value) {
                         switch ($key) {
                             case 'timestamp':
@@ -121,20 +123,21 @@ if (isset($cluster)) {
                                 break;
                             case 'online':
                                 $online = $value;
-                        }
-                        $counter++;
-                        if ($counter == 1) {
-                            continue;
-                        }
-                        if (($for_labels == 0) && (($counter + 1) % 12 == 0)) { //fetching labels for graph
-                            array_push($labels, substr(parseTime($time), 11, 5));
-                        }
-                        if (($counter + 1) % 12 == 0) {
-                            //smart move: 0..79 first name 80..159 second e.t.c
-                            $pushed++;
-                            array_push($dots[$cur_cl], $online);
+                                break;
                         }
                     }
+                    $counter++;
+                    if ($counter == 1) {
+                        continue;
+                    }
+                    if (($for_labels == 0) && (($counter + 1) % 12 == 0 || $counter == count($json))) { //fetching labels for graph
+                        array_push($labels, substr(parseTime($time), 11, 5));
+                    }
+                    if (($counter + 1) % 12 == 0 || $counter == count($json)) {
+                        //smart move: 0..79 first name 80..159 second e.t.c
+                        array_push($dots[$cur_cl], $online);
+                    }
+
                 }
                 $for_labels++;
             }

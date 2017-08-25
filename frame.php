@@ -36,7 +36,7 @@ $temp = new utilsession();
 $cluster = $_GET['cluster'];
 function parseTime($time)
 {
-    $time = intdiv($time, 1000);
+    $time = intdiv($time, 1000) + 10800;
     $time = gmdate("Y-m-d H:i:s", $time);
     return $time;
 }
@@ -78,6 +78,8 @@ if (isset($cluster)) {
             $json = json_decode($json, true);
             $json = $json['online_info'];
             foreach ($json as $dot) {
+                $online = 0;
+                $time = 0;
                 foreach ($dot as $key => $value) {
                     switch ($key) {
                         case 'timestamp':
@@ -85,15 +87,16 @@ if (isset($cluster)) {
                             break;
                         case 'online':
                             $online = $value;
+                            break;
                     }
-                    $counter++;
-                    if ($counter == 1) {
-                        continue;
-                    }
-                    if (($counter + 1) % 12 == 0) {
-                        array_push($labels, substr(parseTime($time), 11, 5));
-                        array_push($dots, $online);
-                    }
+                }
+                $counter++;
+                if ($counter == 1) {
+                    continue;
+                }
+                if (($counter + 1) % 12 == 0 || $counter == count($json)) {
+                    array_push($labels, substr(parseTime($time), 11, 5));
+                    array_push($dots, $online);
                 }
             }
         } else {
@@ -112,6 +115,8 @@ if (isset($cluster)) {
             } else {
                 $json = $json['online_info'];
                 foreach ($json as $dot) {
+                    $online = 0;
+                    $time = 0;
                     foreach ($dot as $key => $value) {
                         switch ($key) {
                             case 'timestamp':
@@ -119,15 +124,16 @@ if (isset($cluster)) {
                                 break;
                             case 'online':
                                 $online = $value;
+                                break;
                         }
-                        $counter++;
-                        if ($counter == 1) {
-                            continue;
-                        }
-                        if (($counter + 1) % 12 == 0) {
-                            array_push($labels, substr(parseTime($time), 11, 5));
-                            array_push($dots, $online);
-                        }
+                    }
+                    $counter++;
+                    if ($counter == 1) {
+                        continue;
+                    }
+                    if (($counter + 1) % 12 == 0 || $counter == count($json)) {
+                        array_push($labels, substr(parseTime($time), 11, 5));
+                        array_push($dots, $online);
                     }
                 }
             }

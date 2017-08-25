@@ -77,9 +77,9 @@
 <div id="mySidenav" class="sidenav">
 
     <a href="https://dms.yt/" id="logo"><img src="pics/logo.png" height="180" width="180" alt=""></a>
+    <a href="owner.php">Мой профиль</a>
     <a href="admin.php">Статистика сервера</a>
     <a href="ping.php">нагрузка</a>
-    <a href="owner.php">Мой профиль</a>
     <a href="#">Поиск игрока</a>
     <a href="#">Баны и муты</a>
     <a href="#">Контакты</a>
