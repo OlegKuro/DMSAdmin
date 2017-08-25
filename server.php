@@ -24,6 +24,11 @@ switch ($_GET['func']) {
         $json = file_get_contents($url);
         echo $json;
         break;
+    case 'yaZaebalsya':
+        $url = $kek->api_req . 'project.getStaffOnline?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
     default:
         break;
 }

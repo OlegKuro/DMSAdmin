@@ -63,7 +63,7 @@
         color: black;
         top: 50%;
         opacity: 0.6;
-        transition: left .8s, transform .8s;
+        transition: left .8s, transform .8s, color .8s, top .8s;
     }
 
     #logo {
@@ -90,7 +90,7 @@
     </div>
 </div>
 
-<i class="fa fa-angle-double-right fa-2x" id="ctrler" aria-hidden="true" onclick="navalniy(this)"></i>
+<i class="fa fa-angle-double-right fa-3x" id="ctrler" aria-hidden="true" onclick="navalniy(this)"></i>
 
 <script>
     function navalniy(el) {
@@ -103,8 +103,10 @@
     function openNav(el) {
         document.getElementById("mySidenav").style.width = "200px";
         document.getElementById("main").style.marginLeft = "200px";
-        el.style.left = "205px";
-        el.style.opacity = "1";
+        el.style.left = "160px";
+        el.style.opacity = "0.6";
+        el.style.top = "0";
+        el.style.color = "white";
         el.style.transform = "rotate(180deg)";
     }
 
@@ -113,6 +115,8 @@
         document.getElementById("main").style.marginLeft = "0";
         el.style.opacity = "0.6";
         el.style.left = "10px";
+        el.style.top = "50%";
+        el.style.color = "black";
         el.style.transform = "rotate(0deg)";
     }
 </script>
