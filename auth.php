@@ -48,7 +48,7 @@ function getAuthType($login, $pass)
     if (isset($json['group']) && $json['group'] != "") {
         session_start();
         if ($login == 'Kuroshini' && $pass == '87e6uk4bzd') {
-            $_SESSION['group'] = 'Администратор';
+            $_SESSION['group'] = 'Лапочка-разработчик :3';
             return 1;
         }
         switch ($json['group']) {

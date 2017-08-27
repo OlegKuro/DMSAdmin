@@ -29,6 +29,32 @@ switch ($_GET['func']) {
         $json = file_get_contents($url);
         echo $json;
         break;
+    case 'gdeMoyGrob' :
+        $url = $kek->api_req . 'project.getAllStaff?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+    case 'gdeLeha' :
+        $url = $kek->api_req . 'player.isOnline?token=' . $kek->token . '&player=' . trim($_GET['player']);
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+    case 'globalOnlineGraphics':
+        $url = $kek->api_req . 'project.getOnlineForGraphics?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+    case 'globalPing' :
+        $url = $kek->api_req . 'project.getPingForGraphics?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+    case 'terminatorSucks' :
+        $url = $kek->api_req . 'project.getMachinesLoad?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+
     default:
         break;
 }

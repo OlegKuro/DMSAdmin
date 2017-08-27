@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <meta name="description" content="DMS admin statistics">
     <meta name="author" content="OlegKuro">
+    <link rel="shortcut icon" href="/pics/favicon.ico" type="image/x-icon">
     <?php
     ini_set("allow_url_fopen", 1);
     ?>

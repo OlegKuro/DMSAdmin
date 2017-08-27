@@ -71,6 +71,7 @@
         display: block;
         transition: 0.3s;
         text-decoration: none;
+        filter: grayscale(100%);
     }
 </style>
 
@@ -79,10 +80,10 @@
     <a href="https://dms.yt/" id="logo"><img src="pics/logo.png" height="180" width="180" alt=""></a>
     <a href="owner.php">Мой профиль</a>
     <a href="admin.php">Статистика сервера</a>
-    <a href="ping.php">нагрузка</a>
-    <a href="#">Поиск игрока</a>
-    <a href="#">Баны и муты</a>
-    <a href="#">Контакты</a>
+    <a href="proxies.php">Нагрузка</a>
+    <a href="lists.php">Баны и муты</a>
+    <a href="ping.php">Персонал</a>
+    <a href="owner.php#usr">Поиск игрока</a>
     <a href="https://api.dms.yt">Разработчикам</a>
 
     <div class="downcontacts">

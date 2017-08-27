@@ -12,6 +12,13 @@
     
 }
 
+@media screen and (max-width: 700px) {
+    h2#formh1 {
+        letter-spacing: 2px;
+        font-size: 20px;
+    }
+}
+
 footer {
     padding-top: 25px;
 }
