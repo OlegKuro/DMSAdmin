@@ -54,6 +54,10 @@ switch ($_GET['func']) {
         $json = file_get_contents($url);
         echo $json;
         break;
+    case 'machGraphics':
+        $url = $kek->api_req . 'project.getMachineLoadForGraphics?token=' . $kek->token . '&machine=' . $_GET['machine'];
+        $json = file_get_contents($url);
+        echo $json;
 
     default:
         break;
