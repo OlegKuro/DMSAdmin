@@ -1,12 +1,11 @@
 <?php
-
-function parseTime($time)
-{
-    $time = intdiv($time, 1000) + 10800;
-    $time = gmdate("Y-m-d H:i:s", $time);
-    return $time;
+require_once "utilsession.php";
+$t = new utilsession();
+$url = $t->api_req . 'project.getProxiesList?token=' . $t->token;
+$json = file_get_contents($url);
+$json = json_decode($json, true);
+$json = $json['proxies'];
+foreach ($json as $key => $value) {
+    if ($value != '__global__')
+        echo '<li id="' . $value . '">' . $value . '</li>';
 }
-
-;
-
-echo parseTime(1503625325866);

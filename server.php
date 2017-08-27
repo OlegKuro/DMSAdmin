@@ -6,6 +6,16 @@
  * Time: 5:43
  */
 
+session_start();
+if ($_SESSION['login'] == "" || $_SESSION['pass'] == "") {
+    header("Location: /?resp=-3");
+    exit();
+}
+if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
+    header("Location: /?resp=-3");
+    exit();
+}
+
 require_once 'utilsession.php';
 $kek = new utilsession();
 switch ($_GET['func']) {
@@ -58,8 +68,18 @@ switch ($_GET['func']) {
         $url = $kek->api_req . 'project.getMachineLoadForGraphics?token=' . $kek->token . '&machine=' . $_GET['machine'];
         $json = file_get_contents($url);
         echo $json;
-
+        break;
+    case 'proxyList':
+        $url = $kek->api_req . 'project.getProxiesList?token=' . $kek->token;
+        $json = file_get_contents($url);
+        echo $json;
+        break;
+    case 'proxyPing':
+        $url = $kek->api_req . 'project.getPingForGraphics?token=' . $kek->token . '&proxy=' . $_GET['proxy'];
+        $json = file_get_contents($url);
+        echo $json;
+        break;
     default:
+        echo 'Kto-to nagovnokodil...';
         break;
 }
-?>

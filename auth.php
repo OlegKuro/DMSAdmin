@@ -28,12 +28,12 @@ switch (getAuthType($login, $pass)) {
         break;
     case 1:
         startSesssion($login, $pass);
-        header("Location: http://$host$uri/owner.php");
+        header("Location: http://$host$uri/profile.php");
         exit();
         break;
     case 2:
         startSesssion($login, $pass);
-        header("Location: http://$host$uri/admin.php");
+        header("Location: http://$host$uri/servStats.php");
         exit();
         break;
 }

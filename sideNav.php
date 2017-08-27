@@ -78,12 +78,11 @@
 <div id="mySidenav" class="sidenav">
 
     <a href="https://dms.yt/" id="logo"><img src="pics/logo.png" height="180" width="180" alt=""></a>
-    <a href="owner.php">Мой профиль</a>
-    <a href="admin.php">Статистика сервера</a>
+    <a href="profile.php">Мой профиль</a>
+    <a href="servStats.php">Статистика сервера</a>
     <a href="proxies.php">Нагрузка</a>
-    <a href="lists.php">Баны и муты</a>
-    <a href="ping.php">Персонал</a>
-    <a href="owner.php#usr">Поиск игрока</a>
+    <a href="staff.php">Персонал</a>
+    <a href="profile.php#usr">Поиск игрока</a>
     <a href="https://api.dms.yt">Разработчикам</a>
 
     <div class="downcontacts">

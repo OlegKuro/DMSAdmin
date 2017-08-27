@@ -154,19 +154,19 @@ font-style: italic;"><?php
 
                     </div>
                     <div class="row JRBUILDER" id="5row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="YOUTUBE">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="YOUTUBE">
 
                     </div>
-                    <div class="row YOUTUBE" id="6row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="SPECIAL">
+                    <div class="row YOUTUBE" id="6row" style="display: none;"></div>
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="SPECIAL">
 
                     </div>
-                    <div class="row SPECIAL" id="7row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="BETA">
+                    <div class="row SPECIAL" id="7row" style="display: none;"></div>
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="BETA">
 
                     </div>
                     <div class="row BETA" id="8row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="PLAYER">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="PLAYER">
 
                     </div>
                     <div class="row PLAYER" id="9row"></div>
@@ -182,35 +182,35 @@ font-style: italic;"><?php
 
                     </div>
                     <div class="row OWNER" id="12row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="VIP_PLUS">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="VIP_PLUS">
 
 
                     </div>
-                    <div class="row VIP_PLUS" id="13row"></div>
+                    <div class="row VIP_PLUS" id="13row" style="display: none;"></div>
                     <div class="titlo row" onclick="foo(this)" id="BUILDER">
 
                     </div>
                     <div class="row BUILDER" id="14row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="YOUTUBE_PLUS_PLUS">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="YOUTUBE_PLUS_PLUS">
 
                     </div>
-                    <div class="row YOUTUBE_PLUS_PLUS" id="15row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="RICH">
+                    <div class="row YOUTUBE_PLUS_PLUS" style="display: none;" id="15row"></div>
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="RICH">
 
                     </div>
                     <div class="row RICH" id="16row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="VIP">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="VIP">
 
                     </div>
                     <div class="row VIP" id="17row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="YOUTUBE_PLUS">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="YOUTUBE_PLUS">
 
                     </div>
                     <div class="row YOUTUBE_PLUS" id="18row"></div>
-                    <div class="titlo row" onclick="foo(this)" id="RICH_PLUS">
+                    <div class="titlo row" onclick="foo(this)" style="display: none;" id="RICH_PLUS">
 
                     </div>
-                    <div class="row RICH_PLUS" id="19row" onclick="foo(this)"></div>
+                    <div class="row RICH_PLUS" id="19row" style="display: none;" onclick="foo(this)"></div>
                     <div class="titlo row" onclick="foo(this)" id="MODERATOR">
 
                     </div>
@@ -269,7 +269,7 @@ font-style: italic;"><?php
                     data = $.parseJSON(data);
                     console.log(data[gr]);
                     $(".personal").html('');
-                    $(".personal").append('<span id="headergr">' + gr + '</span>');
+                    $(".personal").append('<span id="headergr">' + toRus(gr) + '</span>');
                     for (var kek in data[gr]) {
                         (function () {
                             var name = data[gr][kek];
@@ -320,13 +320,50 @@ font-style: italic;"><?php
             }
             $(document).ready(function () {
                 $(".titlo").each(function () {
-                    this.innerHTML = '<span class="groupLabel">' + this.id + '</span>';
+                    this.innerHTML = '<span class="groupLabel">' + toRus(this.id) + '</span>';
                 });
                 notify();
                 setInterval(notify, 10000);
                 foo(document.getElementById('OWNER'));
             });
 
+            function toRus(str) {
+                switch (str) {
+                    case 'JRBUILDER':
+                        return 'Мл.Строитель';
+                        break;
+                    case 'BUILDER':
+                        return 'Строитель';
+                        break;
+                    case 'QA':
+                        return 'Тестер';
+                        break;
+                    case 'SRBUILDER':
+                        return 'Ст.Строитель';
+                        break;
+                    case 'HELPER':
+                        return 'Мл.Модератор';
+                        break;
+                    case 'SRMODERATOR':
+                        return 'Ст.Модератор';
+                        break;
+                    case 'MODERATOR':
+                        return 'Модератор';
+                        break;
+                    case 'DEVELOPER':
+                        return 'Разработчик';
+                        break;
+                    case 'ADMINISTRATOR':
+                        return 'Администратор';
+                        break;
+                    case 'OWNER':
+                        return 'Владелец';
+                        break;
+                    default:
+                        return 'New Group';
+                        break;
+                }
+            }
             function parseTime(timestamp) {
 
                 //timestamp+=10800000;

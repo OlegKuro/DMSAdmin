@@ -20,12 +20,25 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
 require "header.php";
 require "sideNav.php";
 ?>
-
+<style>
+    .list > ul {
+        list-style: none;
+    }
+</style>
 
 <div id="main">
     <div class="container">
         <div class="row">
+            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 list" id="divBans">
+                <ul id="bans">
 
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 list" id="divMutes">
+                <ul id="mutes">
+
+                </ul>
+            </div>
         </div>
     </div>
 

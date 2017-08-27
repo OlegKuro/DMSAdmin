@@ -108,7 +108,7 @@ font-style: italic;"><?php
     width: 100%;
 ">друзья</span>
                     </div>
-                    <div class="row">
+                    <div class="row" style="min-height:180px">
                         <table class="table table-sm table-hover table-condensed" id="friendsTable">
                             <thead>
                             <tr>

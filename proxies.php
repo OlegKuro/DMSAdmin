@@ -29,6 +29,34 @@ require "sideNav.php";
         font-style: italic;
     }
 
+    #proxiesList {
+        cursor: pointer;
+    }
+
+    #proxiesList > li {
+        -webkit-box-shadow: 0px 4px 83px 22px rgba(194, 190, 194, 0.69);
+        -moz-box-shadow: 0px 4px 83px 22px rgba(194, 190, 194, 0.69);
+        box-shadow: 0px 4px 12px 0px rgba(194, 190, 194, 0.69);
+        display: block;
+        text-align: center;
+        float: left;
+        word-wrap: break-word;
+        height: 57px;
+        z-index: 200;
+        border-radius: 12px;
+        margin-top: -11px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        font-weight: 300;
+        font-size: 15px;
+        padding: 17px;
+        transition: opacity .8s;
+        background: rgb(255, 255, 255);
+        background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
+        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
+        background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
+        margin-right: 23px;
+    }
     #slozhno > div {
         display: block;
         text-align: center;
@@ -46,10 +74,10 @@ require "sideNav.php";
         background: rgb(255, 255, 255);
         background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
         background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
+        background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
     }
 </style>
-<div id="main">
+<div id="main" style="z-index: 500">
     <div class="container">
         <div class="row">
             <h2 style="display: block;
@@ -88,7 +116,7 @@ font-style: italic;"><?php
 margin: 10px auto;
 font-size: 24px;
 font-weight: bolder;
-letter-spacing: 2px;">dmsds-109640.dms.yt</span>
+letter-spacing: 2px;">dmsds-109640.dms.yt (max:56)</span>
         </div>
         <div class="row" id="machinesBlock">
             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="divcurMach">
@@ -100,25 +128,203 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                 </div>
             </div>
         </div>
+        <hr>
+
+        <div class="row">
+            <span id="curProxyDown" style="display: block;
+margin: 10px auto;
+font-size: 24px;
+font-weight: bolder;
+letter-spacing: 2px;">proxy-1</span>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="divcurProxy">
+                <canvas id="curProxy" width="1600" height="650" onload="draw()" style="z-index: 0"></canvas>
+            </div>
+            <div id="proxiesPanel col-md-9 col-lg-9 col-sm-12 col-xs-12" style="z-index: 200;">
+                <div id="tyazhelo" style="width: 100%">
+                    <ul id="proxiesList" style="list-style: none">
+                        <?php
+                        require_once "utilsession.php";
+                        $t = new utilsession();
+                        $url = $t->api_req . 'project.getProxiesList?token=' . $t->token;
+                        $json = file_get_contents($url);
+                        $json = json_decode($json, true);
+                        $json = $json['proxies'];
+                        foreach ($json as $key => $value) {
+                            if ($value != '__global__')
+                                echo '<li id="' . $value . '" onclick="drawPingProxy(this)">' . $value . '</li>';
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
     <script>
         $(document).ready(function () {
+            barsDraw();
             drawChartPing();
             drawChartGlobal();
-            barsDraw();
-            machDraw(document.getElementById('curMachDown'));
+            machDraw(document.getElementById('curMachDown'), -1);
+            drawPingProxy(document.getElementById('curProxyDown'));
             setInterval(function () {
                 drawChartGlobal();
                 drawChartPing();
-                machDraw(document.getElementById('curMachDown'));
-            }, 70000);
+                machDraw(document.getElementById('curMachDown'), -1);
+                drawPingProxy(document.getElementById('curProxyDown'));
+            }, 700000);
             setInterval(function () {
                 barsDraw();
-            }, 500000);
+            }, 3000000);
         });
+        $(window).resize(function () {
+            drawChartPing();
+            drawChartGlobal();
+            machDraw(document.getElementById('curMachDown'));
+            drawPingProxy(document.getElementById('curProxyDown'));
+        });
+        function machDraw(el, limit) {
+            if (el.id == 'curMachDown') {
+                //obnova
+                var mach = el.innerHTML.split(" ")[0];
+                limit = el.innerHTML.split(" ")[1];
+                limit = limit.replace("(max:", "").replace(")", "");
+                limit = parseInt(limit);
+                console.log('obnova: ' + limit);
+            } else {
+                var mach = el.id;
+                console.log('click: ' + limit);
+            }
+            console.log(limit);
+            console.log(el.id);
 
+            document.getElementById("curMachDown").innerHTML = mach + ' (max:' + limit + ')';
+            (function () {
+                var timestamp = [];
+                var load = [];
+                var curMach = mach;
+                var limitdata = [];
+                $.get('server.php?func=machGraphics&machine=' + mach, function (data) {
+                    var machines = $.parseJSON(data);
+                    machines = machines['load_info'];
+                    for (var cur in machines) {
+                        if (true) {
+                            load.push(machines[cur]['load']);
+                            timestamp.push(parseTime(machines[cur]['timestamp']));
+                        }
+                    }
+                    for (var i = 0; i < load.length; i++) {
+                        if (true)
+                            limitdata.push(limit);
+                        else
+                            limitdata.push(null);
+                    }
+
+                }).done(function () {
+                    var t = document.getElementById("divcurMach");
+                    var str = t.innerHTML;
+                    t.innerHTML = '';
+                    t.innerHTML = str;
+                    new Chart(document.getElementById("curMach"), {
+                        type: 'line',
+                        data: {
+                            labels: timestamp,
+                            datasets: [
+                                {
+                                    data: load,
+                                    label: 'Load',
+                                    borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
+                                    fill: true,
+                                    pointRadius: 0.5,
+                                    borderWidth: 1,
+                                    pointHoverRadius: 3
+                                },
+                                {
+                                    data: limitdata,
+                                    label: 'Max Load',
+                                    borderColor: "#F12313",
+                                    fill: true,
+                                    pointRadius: 0.75,
+                                    borderWidth: 1.5,
+                                    pointHoverRadius: 5
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            responsive: true
+                        }
+                    });
+                    $(".chartjs-hidden-iframe").remove();
+                });
+            })();
+        }
+        function drawPingProxy(el) {
+            if (el.id == 'curProxyDown') {
+                //obnova
+                var proxy = el.innerHTML;
+            } else {
+                var proxy = el.id;
+                el.style.opacity = "0.5";
+                setTimeout(function () {
+                    el.style.opacity = "1";
+                }, 800);
+            }
+            console.log(el.id);
+
+            document.getElementById("curProxyDown").innerHTML = proxy;
+            (function () {
+                var timestamp = [];
+                var ping = [];
+                $.get('server.php?func=proxyPing&proxy=' + proxy, function (data) {
+                    var proxies = $.parseJSON(data);
+                    proxies = proxies['ping_info'];
+                    for (var cur in proxies) {
+                        if ((cur == proxies.length - 1) || (cur % 4) == 0) {
+                            ping.push(proxies[cur]['ping']);
+                            timestamp.push(parseTime(proxies[cur]['timestamp']));
+                        }
+                    }
+                }).done(function () {
+                    var t = document.getElementById("divcurProxy");
+                    var str = t.innerHTML;
+                    t.innerHTML = '';
+                    t.innerHTML = str;
+                    new Chart(document.getElementById("curProxy"), {
+                        type: 'line',
+                        data: {
+                            labels: timestamp,
+                            datasets: [
+                                {
+                                    data: ping,
+                                    label: 'Ping',
+                                    borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
+                                    fill: true,
+                                    pointRadius: 2,
+                                    borderWidth: 1,
+                                    pointHoverRadius: 3
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            responsive: true
+                        }
+                    });
+                    $(".chartjs-hidden-iframe").remove();
+                });
+            })();
+        }
         function drawChartGlobal() {
             var labelsarr = [];
             var onlines = [];
@@ -127,7 +333,7 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                     var dots = $.parseJSON(data);
                     dots = dots['online_info'];
                     for (var dotNum in dots) {
-                        if ((dotNum == dots.length - 1) || (dotNum % 12 == 0)) {
+                        if (true) {
                             labelsarr.push(parseTime(dots[dotNum]['timestamp']));
                             onlines.push(dots[dotNum]['online']);
                         }
@@ -146,7 +352,11 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                                     data: onlines,
                                     label: "Global Online",
                                     borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
-                                    fill: false
+                                    fill: true,
+                                    borderWidth: 1,
+                                    pointRadius: 0.5,
+                                    pointHoverRadius: 5
+
                                 }
                             ]
                         },
@@ -171,7 +381,7 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                     var dots = $.parseJSON(data);
                     dots = dots['ping_info'];
                     for (var dotNum in dots) {
-                        if ((dotNum == dots.length - 1) || (dotNum % 12 == 0)) {
+                        if ((dotNum == dots.length - 1) || (dotNum % 7 == 0)) {
                             labelsarr.push(parseTime(dots[dotNum]['timestamp']));
                             onlines.push(dots[dotNum]['ping']);
                         }
@@ -190,7 +400,7 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                                     data: onlines,
                                     label: "Ping",
                                     borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
-                                    fill: false
+                                    fill: true
                                 }
                             ]
                         },
@@ -240,25 +450,22 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
                         if (percentage[i] < 100) {
                             str += ('<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ');
                             if (percentage[i] < 8) {
-                                str += ('style="width:' + percentage[i] + '%; color:black;">' + percentage[i] + '%</div></div></div>');
+                                str += ('style="width:' + percentage[i] + '%; color:black;>' + percentage[i] + '%</div></div></div>');
                             } else {
-                                str += ('style="width:' + percentage[i] + '%">' + percentage[i] + '%</div></div></div>');
+                                str += ('style="width:' + percentage[i] + '%;">' + percentage[i] + '%</div></div></div>');
                             }
                         } else {
-                            str += ('<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ');
-                            if (percentage[i] < 8) {
-                                str += ('style="width:' + percentage[i] + '%; color:black;">' + percentage[i] + '%</div></div></div>');
-                            } else {
-                                str += ('style="width:' + percentage[i] + '%">' + percentage[i] + '%</div></div></div>');
-                            }
+                            str += ('<div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ');
+
+                            str += ('style="width:' + '100' + '%">' + percentage[i] + '%</div></div></div>');
                         }
 
                         $(block).append(str);
                         str = '';
-                        str += '<div id="' + names[i] + '" onclick="machDraw(this)" style="cursor:pointer;">';
+                        str += '<div id="' + names[i] + '" onclick="machDraw(this,' + maxl[i] + ' )" style="cursor:pointer;">';
                         //li inner
                         str += names[i].replace(".dms.yt", "").replace(".network", "");
-                        str += '<br>' + addr[i] + '<br>' + loadnow[i] + '/' + maxl[i] + '<br> (' + percentage[i] + '%)';
+                        str += '<br>' + addr[i] + '<br>' + loadnow[i] + '/<span id="limit' + names[i] + '">' + maxl[i] + '</span><br> (' + percentage[i] + '%)';
                         str += '</div>';
                         $(list).append(str);
                     }
@@ -269,62 +476,7 @@ letter-spacing: 2px;">dmsds-109640.dms.yt</span>
         }
 
         //consumes mach name!
-        function machDraw(el) {
-            if (el.id == 'curMachDown') {
-                //obnova
-                var mach = el.innerHTML;
-            } else {
-                var mach = el.id;
-                el.style.opacity = "0.5";
-                setTimeout(function () {
-                    el.style.opacity = "1";
-                }, 800);
-            }
-            console.log(el.id);
 
-            document.getElementById("curMachDown").innerHTML = mach;
-            (function () {
-                var timestamp = [];
-                var load = [];
-                var curMach = mach;
-                $.get('server.php?func=machGraphics&machine=' + mach, function (data) {
-                    var machines = $.parseJSON(data);
-                    machines = machines['load_info'];
-                    for (var cur in machines) {
-                        if ((cur == machines.length - 1) || (cur % 5 == 0)) {
-                            load.push(machines[cur]['load']);
-                            timestamp.push(parseTime(machines[cur]['timestamp']));
-                        }
-                    }
-                }).done(function () {
-                    var t = document.getElementById("divcurMach");
-                    var str = t.innerHTML;
-                    t.innerHTML = '';
-                    t.innerHTML = str;
-                    new Chart(document.getElementById("curMach"), {
-                        type: 'line',
-                        data: {
-                            labels: timestamp,
-                            datasets: [
-                                {
-                                    data: load,
-                                    label: mach.replace(".dms.yt", "").replace(".network", ""),
-                                    borderColor: <?php echo '"#' . rand(0, 9) . "c" . rand(0, 9) . "a" . rand(0, 9) . 'f"'?>,
-                                    fill: false
-                                }
-                            ]
-                        },
-                        options: {
-                            legend: {
-                                display: true,
-                                position: 'top'
-                            }
-                        }
-                    });
-                    $(".chartjs-hidden-iframe").remove();
-                });
-            })();
-        }
         function parseTime(timestamp) {
 
             //timestamp+=10800000;
