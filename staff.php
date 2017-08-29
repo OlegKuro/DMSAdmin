@@ -8,11 +8,13 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
     header("Location: /?resp=-3");
     exit();
 }
+
 if ($_SESSION['group'] != 'Владелец' || $_SESSION['group'] != 'Администратор') {
     $host = $_SERVER['HTTP_HOST'];
     $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
     header("Location: http://$host$uri/noRights.php");
 }
+
 ?>
 <?php
 /**

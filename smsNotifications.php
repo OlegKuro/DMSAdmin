@@ -13,8 +13,6 @@ require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Rest\Client;
 
 // Your Account SID and Auth Token from twilio.com/console
-$sid = 'AC5bf4ed7b3b49ef9f8e262a7297959f1f';
-$token = '33eb7340c1eed76d4d4e1966e748320d';
 $client = new Client($sid, $token);
 $numsarr = [
     '+79119834268',
