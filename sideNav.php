@@ -66,6 +66,22 @@
         transition: left .8s, transform .8s, color .8s, top .8s;
     }
 
+    #cross {
+        position: fixed;
+        z-index: 200;
+        left: 0;
+        top: 0;
+        transition: color .8s;
+        color: white;
+        opacity: 0.6;
+        cursor: pointer;
+        display: none;
+    }
+
+    #cross:hover {
+        color: red;
+    }
+
     #logo {
         padding: 10px;
         display: block;
@@ -82,9 +98,10 @@
     <a href="servStats.php">Статистика сервера</a>
     <a href="proxies.php">Нагрузка</a>
     <a href="staff.php">Персонал</a>
-    <a href="profile.php#usr">Поиск игрока</a>
+    <a href="lists.php">Поиск игрока</a>
     <a href="https://api.dms.yt">Разработчикам</a>
 
+    <i class="fa fa-times fa-3x" aria-hidden="true" onclick="logout()" id="cross"></i>
     <div class="downcontacts">
 
     </div>
@@ -94,10 +111,18 @@
 
 <script>
     function navalniy(el) {
-        if (document.getElementById("mySidenav").style.width == "200px")
+        if (document.getElementById("mySidenav").style.width == "200px") {
             closeNav(el);
-        else
+            $('#cross').fadeOut('slow');
+        }
+        else {
             openNav(el);
+            $('#cross').fadeIn('slow');
+        }
+    }
+
+    function logout() {
+        window.location = 'logout.php';
     }
 
     function openNav(el) {

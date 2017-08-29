@@ -8,6 +8,11 @@ if (!isset($_SESSION['login']) || !isset($_SESSION['pass'])) {
     header("Location: /?resp=-3");
     exit();
 }
+if ($_SESSION['group'] != 'Владелец') {
+    $host = $_SERVER['HTTP_HOST'];
+    $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    header("Location: http://$host$uri/noRights.php");
+}
 ?>
 
 <?php
@@ -176,10 +181,10 @@ letter-spacing: 2px;">proxy-1</span>
                 drawChartPing();
                 machDraw(document.getElementById('curMachDown'), -1);
                 drawPingProxy(document.getElementById('curProxyDown'));
-            }, 700000);
+            }, 70000);
             setInterval(function () {
                 barsDraw();
-            }, 3000000);
+            }, 3000);
         });
         $(window).resize(function () {
             drawChartPing();

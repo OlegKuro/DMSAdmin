@@ -10,8 +10,8 @@
 
 $host = $_SERVER['HTTP_HOST'];
 $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-$login = $_POST['login'];
-$pass = $_POST['pass'];
+$login = htmlentities($_POST['login']);
+$pass = htmlentities($_POST['pass']);
 
 if (!isset($_POST['login']) || !isset($_POST['pass'])) {
     header("Location: /?resp=-1");
@@ -33,7 +33,7 @@ switch (getAuthType($login, $pass)) {
         break;
     case 2:
         startSesssion($login, $pass);
-        header("Location: http://$host$uri/servStats.php");
+        header("Location: http://$host$uri/proxies.php");
         exit();
         break;
 }
@@ -47,14 +47,10 @@ function getAuthType($login, $pass)
     $json = json_decode($json, true);
     if (isset($json['group']) && $json['group'] != "") {
         session_start();
-        if ($login == 'Kuroshini' && $pass == '87e6uk4bzd') {
-            $_SESSION['group'] = 'Лапочка-разработчик :3';
-            return 1;
-        }
         switch ($json['group']) {
             case 'ADMINISTRATOR':
                 $_SESSION['group'] = 'Администратор';
-                return 1;
+                return 2;
                 break;
             case 'OWNER':
                 $_SESSION['group'] = 'Владелец';
@@ -64,7 +60,7 @@ function getAuthType($login, $pass)
                 $_SESSION['group'] = 'Игрок';
                 return 1;
             default:
-                return -1;
+                $_SESSION['group'] = $json['group'];
         }
 
     } else {
